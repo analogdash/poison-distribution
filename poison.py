@@ -77,9 +77,10 @@ def gen_pair():
         'passwd' : gen_pwd()
         }
 
-endpoint = 'http://13.76.46.162/login/'
-
-headers = {
+hosts = [
+{
+'endpoint' : 'http://13.76.46.162/login/', 
+'header' : {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
     'Accept-Language': 'en-US,en;q=0.5',
@@ -89,15 +90,30 @@ headers = {
     'DNT': '1',
     'Connection': 'keep-alive',
     'Upgrade-Insecure-Requests': '1',
-}
+    }
+}, {
+'endpoint' : 'http://20.36.25.179/login/', 
+'header' : {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    'Accept-Language': 'en-US,en;q=0.5',
+    'Referer': 'http://20.36.25.179/home/',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Origin': 'http://20.36.25.179',
+    'DNT': '1',
+    'Connection': 'keep-alive',
+    'Upgrade-Insecure-Requests': '1',
+    }
+} ]
 
 count = 0
 while True:
     count+=1
     pair = gen_pair()
+    host = random.choice(hosts)
     for _ in range(0,20):
         try:
-            resp = requests.post(endpoint, headers=headers, data=pair, allow_redirects=False)
+            resp = requests.post(host['endpoint'], headers=host['header'], data=pair, allow_redirects=False)
         except:
             print('fail')
             pass
